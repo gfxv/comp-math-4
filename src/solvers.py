@@ -8,7 +8,8 @@ import utils
 # LINEAR APPROXIMATION #
 ########################
 
-def linear(x_points: list[float], y_points: list[float]) -> None:
+# Returns reliability of approximation (coefficient of determination - R^2)
+def linear(x_points: list[float], y_points: list[float]) -> float:
     linear_y_points = linear_approximation(x_points, y_points)
     epsilon = [round(phi - y, 3) for phi, y in zip(linear_y_points, y_points)]
     S = sum(list(map(lambda e: e*e, epsilon)))
@@ -28,6 +29,8 @@ def linear(x_points: list[float], y_points: list[float]) -> None:
     ax.scatter(x_points, y_points)
     ax.plot(x_points, linear_y_points)
     plt.savefig("linear.png")
+
+    return utils.reliability_of_approximation(y_points, linear_y_points)
 
 
 def linear_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
@@ -71,7 +74,7 @@ def pearson_coefficient(x_points: list[float], y_points: list[float]) -> float:
 # QUADRATIC APPROXIMATION #
 ###########################
 
-def quadractic(x_points: list[float], y_points: list[float]) -> None:
+def quadractic(x_points: list[float], y_points: list[float]) -> float:
     quadractic_y_points = quadractic_approximation(x_points, y_points)
     epsilon = [round(phi - y, 3) for phi, y in zip(quadractic_y_points, y_points)]
     S = sum(list(map(lambda e: e*e, epsilon)))
@@ -89,6 +92,8 @@ def quadractic(x_points: list[float], y_points: list[float]) -> None:
     ax.scatter(x_points, y_points)
     ax.plot(x_points, quadractic_y_points)
     plt.savefig("quadratic.png")
+
+    return utils.reliability_of_approximation(y_points, quadractic_y_points)
 
 
 def quadractic_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
@@ -139,6 +144,8 @@ def cubic(x_points: list[float], y_points: list[float]) -> None:
     ax.plot(x_points, cubic_y_points)
     plt.savefig("cubic.png")
 
+    return utils.reliability_of_approximation(y_points, cubic_y_points)
+    
 
 def cubic_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
     x = sum(x_points)
@@ -192,6 +199,8 @@ def exponential(x_points: list[float], y_points: list[float]) -> None:
     ax.plot(x_points, exponential_y_points)
     plt.savefig("exponential.png")
 
+    return utils.reliability_of_approximation(y_points, exponential_y_points)
+
 
 def exponential_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
     if not utils.all_exp_safe(y_points):
@@ -228,6 +237,8 @@ def power(x_points: list[float], y_points: list[float]) -> None:
     ax.scatter(x_points, y_points)
     ax.plot(x_points, power_y_points)
     plt.savefig("power2.png")
+
+    return utils.reliability_of_approximation(y_points, power_y_points)
 
 
 def power_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
@@ -277,6 +288,8 @@ def logarithmic(x_points: list[float], y_points: list[float]) -> None:
     ax.scatter(x_points, y_points)
     ax.plot(x_points, lop_y_points)
     plt.savefig("logarithmic.png")
+
+    return utils.reliability_of_approximation(y_points, lop_y_points)
 
 
 def logarithmic_approximation(x_points: list[float], y_points: list[float]) -> list[float]:

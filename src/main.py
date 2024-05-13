@@ -1,6 +1,7 @@
 import sys
 
 from solvers import linear, quadractic, cubic, power, exponential, logarithmic
+import utils
 
 def read_input():
     print("Input boundaries:")
@@ -27,31 +28,41 @@ def main() -> None:
     y_points = [round(f(x), 3) for x in x_points]
     print("Intervals: ", x_points)
 
+    reliabilities = []
 
     print()
-    linear(x_points, y_points)
+    reliabilities.append((linear(x_points, y_points), "linear"))
     print()
-    quadractic(x_points, y_points)
+    reliabilities.append((quadractic(x_points, y_points), "quadractic"))
     print()
-    cubic(x_points, y_points)
-    
+    reliabilities.append((cubic(x_points, y_points), "cubic"))
+
     try:
         print()
-        power(x_points, y_points)
+        reliabilities.append((power(x_points, y_points), "power"))
     except ValueError as e:
         print(e)
 
     try:
         print()
-        exponential(x_points, y_points)
+        reliabilities.append((exponential(x_points, y_points), "exponential"))
     except ValueError as e:
         print(e)
 
     try:
         print()
-        logarithmic(x_points, y_points)
+        reliabilities.append((logarithmic(x_points, y_points), "logarithmic"))
     except ValueError as e:
         print(e)
+
+    m, name = utils.max_reliability(reliabilities)
+
+    print()
+    print("Reliabilities of approximation (coefficients of determination):")
+    utils.print_reliabilities(reliabilities)
+    print()
+    print("Best method:", name)
+    print("With reliability:", m)
 
 
 if __name__ == "__main__":
