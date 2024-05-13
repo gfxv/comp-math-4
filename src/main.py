@@ -1,6 +1,6 @@
 import sys
 
-from solvers import linear, quadractic
+from solvers import linear, quadractic, cubic
 
 def read_input():
     print("Input boundaries:")
@@ -34,6 +34,8 @@ def main() -> None:
     linear(x_points, y_points)
     print()
     quadractic(x_points, y_points)
+    print()
+    cubic(x_points, y_points)
 
 if __name__ == "__main__":
     main()
