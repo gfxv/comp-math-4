@@ -1,6 +1,6 @@
 import sys
 
-from solvers import linear, quadractic, cubic, power
+from solvers import linear, quadractic, cubic, power, exponential, logarithmic
 
 def read_input():
     print("Input boundaries:")
@@ -18,9 +18,6 @@ def read_input():
 def f(x: float) -> float:
     return 4*x / (x**4 + 12)
 
-def df(x: float) -> float:
-    return -12 * (x**4 - 4) / (x**4 + 12)**2
-
 
 def main() -> None:
     a, b, h = read_input()
@@ -37,11 +34,25 @@ def main() -> None:
     quadractic(x_points, y_points)
     print()
     cubic(x_points, y_points)
+    
     try:
         print()
         power(x_points, y_points)
     except ValueError as e:
         print(e)
+
+    try:
+        print()
+        exponential(x_points, y_points)
+    except ValueError as e:
+        print(e)
+
+    try:
+        print()
+        logarithmic(x_points, y_points)
+    except ValueError as e:
+        print(e)
+
 
 if __name__ == "__main__":
     main()

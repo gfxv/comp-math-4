@@ -11,7 +11,7 @@ import utils
 def linear(x_points: list[float], y_points: list[float]) -> None:
     linear_y_points = linear_approximation(x_points, y_points)
     epsilon = [round(phi - y, 3) for phi, y in zip(linear_y_points, y_points)]
-    S = round(sum(list(map(lambda e: e*e, epsilon))), 3)
+    S = sum(list(map(lambda e: e*e, epsilon)))
     r = pearson_coefficient(x_points, y_points)
 
     print("Linear approximation:")
@@ -27,7 +27,7 @@ def linear(x_points: list[float], y_points: list[float]) -> None:
     
     ax.scatter(x_points, y_points)
     ax.plot(x_points, linear_y_points)
-    plt.show()
+    plt.savefig("linear.png")
 
 
 def linear_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
@@ -74,7 +74,7 @@ def pearson_coefficient(x_points: list[float], y_points: list[float]) -> float:
 def quadractic(x_points: list[float], y_points: list[float]) -> None:
     quadractic_y_points = quadractic_approximation(x_points, y_points)
     epsilon = [round(phi - y, 3) for phi, y in zip(quadractic_y_points, y_points)]
-    S = round(sum(list(map(lambda e: e*e, epsilon))), 3)
+    S = sum(list(map(lambda e: e*e, epsilon)))
 
     print("Quadractic approximation:")
     print("x:", x_points)
@@ -88,7 +88,7 @@ def quadractic(x_points: list[float], y_points: list[float]) -> None:
     
     ax.scatter(x_points, y_points)
     ax.plot(x_points, quadractic_y_points)
-    plt.show()
+    plt.savefig("quadratic.png")
 
 
 def quadractic_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
@@ -137,7 +137,7 @@ def cubic(x_points: list[float], y_points: list[float]) -> None:
     
     ax.scatter(x_points, y_points)
     ax.plot(x_points, cubic_y_points)
-    plt.show()
+    plt.savefig("cubic.png")
 
 
 def cubic_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
@@ -173,16 +173,37 @@ def cubic_result_function(a0: float, a1: float, a2: float, a3: float, x) -> floa
 # EXPONENTIAL APPROXIMATION #
 #############################
 
-def exponential() -> None:
-    pass
+def exponential(x_points: list[float], y_points: list[float]) -> None:
+    exponential_y_points = exponential_approximation(x_points, y_points)
+    epsilon = [round(phi - y, 3) for phi, y in zip(exponential_y_points, y_points)]
+    S = sum(list(map(lambda e: e*e, epsilon)))
+
+    print("Exponential approximation:")
+    print("x:", x_points)
+    print("y:", y_points)
+    print("ф:", exponential_y_points)
+    print("e:", epsilon)
+    print("S:", S)
+
+    fig = plt.figure()
+    ax = plt.axes()
+    
+    ax.scatter(x_points, y_points)
+    ax.plot(x_points, exponential_y_points)
+    plt.savefig("exponential.png")
 
 
-def exponential_approximation() -> list[float]:
-    pass
+def exponential_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
+    if not utils.all_exp_safe(y_points):
+        raise ValueError("Can't perform exponential approximation. There are some invalid `y` values")
+    
+    a, b = linear_coefficients(x_points, y_points)
+
+    return [round(exponentioal_result_funtion(math.exp(a), b, x), 3) for x in x_points]
 
 
-def exponentioal_result_funtion() -> float:
-    pass
+def exponentioal_result_funtion(a: float, b: float, x: float) -> float:
+    return a * math.exp(b * x)
 
 
 #######################
@@ -206,7 +227,7 @@ def power(x_points: list[float], y_points: list[float]) -> None:
     
     ax.scatter(x_points, y_points)
     ax.plot(x_points, power_y_points)
-    plt.show()
+    plt.savefig("power2.png")
 
 
 def power_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
@@ -217,10 +238,10 @@ def power_approximation(x_points: list[float], y_points: list[float]) -> list[fl
     # b = b_top / b_bottom
 
     # a_pow = sum(list(map(lambda y: math.log(y), y_points))) / n - (b/n) * sum(list(map(lambda x: math.log(x), x_points)))
-    # a = math.pow(math.e, a_pow)
+    # a = math.exp(a_pow)
 
     if not utils.all_exp_safe(x_points) or not utils.all_exp_safe(y_points):
-        raise ValueError("Can't perform power approximation. There are some invalid `x` or `y` points")
+        raise ValueError("Can't perform power approximation. There are some invalid `x` or `y` values")
 
     ln_x_points = utils.to_ln(x_points)
     ln_y_points = utils.to_ln(y_points)
@@ -232,3 +253,41 @@ def power_approximation(x_points: list[float], y_points: list[float]) -> list[fl
 
 def power_result_funtion(a: float, b: float, x: float) -> float:
     return a * (x**b)
+
+
+#############################
+# LOGARITHMIC APPROXIMATION #
+#############################
+
+def logarithmic(x_points: list[float], y_points: list[float]) -> None:
+    lop_y_points = logarithmic_approximation(x_points, y_points)
+    epsilon = [round(phi - y, 3) for phi, y in zip(lop_y_points, y_points)]
+    S = sum(list(map(lambda e: e*e, epsilon)))
+
+    print("Logarithmic approximation:")
+    print("x:", x_points)
+    print("y:", y_points)
+    print("ф:", lop_y_points)
+    print("e:", epsilon)
+    print("S:", S)
+
+    fig = plt.figure()
+    ax = plt.axes()
+    
+    ax.scatter(x_points, y_points)
+    ax.plot(x_points, lop_y_points)
+    plt.savefig("logarithmic.png")
+
+
+def logarithmic_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
+
+    if not utils.all_exp_safe(x_points):
+        raise ValueError("Can't perform logarithmic approximation. There are some invalid `x` values")
+
+    a, b = linear_coefficients(x_points, y_points)
+
+    return [round(logarithmic_result_function(a, b, x), 3) for x in x_points]
+
+
+def logarithmic_result_function(a: float, b: float, x: float) -> float:
+    return a * math.log(x) + b
