@@ -1,6 +1,6 @@
 import sys
 
-from solvers import linear, quadractic, cubic
+from solvers import linear, quadractic, cubic, power
 
 def read_input():
     print("Input boundaries:")
@@ -30,12 +30,18 @@ def main() -> None:
     y_points = [round(f(x), 3) for x in x_points]
     print("Intervals: ", x_points)
 
+
     print()
     linear(x_points, y_points)
     print()
     quadractic(x_points, y_points)
     print()
     cubic(x_points, y_points)
+    try:
+        print()
+        power(x_points, y_points)
+    except ValueError as e:
+        print(e)
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
+import utils
 
 ########################
 # LINEAR APPROXIMATION #
@@ -30,6 +31,11 @@ def linear(x_points: list[float], y_points: list[float]) -> None:
 
 
 def linear_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
+    a, b = linear_coefficients(x_points, y_points)
+    return [round(linear_result_function(a, b, x), 3) for x in x_points]
+
+
+def linear_coefficients(x_points: list[float], y_points: list[float]) -> tuple[float]:
     sx = sum(x_points)
     sxx = sum(list(map(lambda x: x*x, x_points)))
     sy = sum(y_points)
@@ -44,7 +50,7 @@ def linear_approximation(x_points: list[float], y_points: list[float]) -> list[f
     a = round(delta1 / delta, 3)
     b = round(delta2 / delta, 3)
 
-    return [round(linear_result_function(a, b, x), 3) for x in x_points]
+    return a, b
 
 
 def linear_result_function(a: float, b: float, x: float) -> float:
@@ -161,3 +167,68 @@ def cubic_approximation(x_points: list[float], y_points: list[float]) -> list[fl
 
 def cubic_result_function(a0: float, a1: float, a2: float, a3: float, x) -> float:
     return a0 + a1 * x + a2 * x * x + a3 * x**3
+
+
+#############################
+# EXPONENTIAL APPROXIMATION #
+#############################
+
+def exponential() -> None:
+    pass
+
+
+def exponential_approximation() -> list[float]:
+    pass
+
+
+def exponentioal_result_funtion() -> float:
+    pass
+
+
+#######################
+# POWER APPROXIMATION #
+#######################
+
+def power(x_points: list[float], y_points: list[float]) -> None:
+    power_y_points = power_approximation(x_points, y_points)
+    epsilon = [round(phi - y, 3) for phi, y in zip(power_y_points, y_points)]
+    S = sum(list(map(lambda e: e*e, epsilon)))
+
+    print("Power approximation:")
+    print("x:", x_points)
+    print("y:", y_points)
+    print("ф:", power_y_points)
+    print("e:", epsilon)
+    print("S:", S)
+
+    fig = plt.figure()
+    ax = plt.axes()
+    
+    ax.scatter(x_points, y_points)
+    ax.plot(x_points, power_y_points)
+    plt.show()
+
+
+def power_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
+    # n = len(x_points)
+
+    # b_top = n * sum([math.log(x) * math.log(y) for x, y in zip(x_points, y_points)]) - sum(list(map(lambda x: math.log(x), x_points))) * sum(list(map(lambda y: math.log(y), y_points)))
+    # b_bottom = n * sum(list(map(lambda x: math.log(x)**2, x_points))) - sum(list(map(lambda x: math.log(x), x_points)))**2
+    # b = b_top / b_bottom
+
+    # a_pow = sum(list(map(lambda y: math.log(y), y_points))) / n - (b/n) * sum(list(map(lambda x: math.log(x), x_points)))
+    # a = math.pow(math.e, a_pow)
+
+    if not utils.all_exp_safe(x_points) or not utils.all_exp_safe(y_points):
+        raise ValueError("Can't perform power approximation. There are some invalid `x` or `y` points")
+
+    ln_x_points = utils.to_ln(x_points)
+    ln_y_points = utils.to_ln(y_points)
+
+    a, b = linear_coefficients(ln_x_points, ln_y_points)
+
+    return [round(power_result_funtion(math.exp(a), b, x), 3) for x in x_points]
+
+
+def power_result_funtion(a: float, b: float, x: float) -> float:
+    return a * (x**b)
