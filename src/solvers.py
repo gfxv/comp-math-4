@@ -236,7 +236,7 @@ def power(x_points: list[float], y_points: list[float]) -> None:
     
     ax.scatter(x_points, y_points)
     ax.plot(x_points, power_y_points)
-    plt.savefig("power2.png")
+    plt.savefig("power.png")
 
     return utils.reliability_of_approximation(y_points, power_y_points)
 
