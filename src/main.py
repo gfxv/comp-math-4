@@ -3,6 +3,7 @@ import sys
 from solvers import linear, quadractic, cubic, power, exponential, logarithmic
 import utils
 
+
 def read_input():
     print("Input boundaries:")
     try:
@@ -15,6 +16,7 @@ def read_input():
 
     return min(a, b), max(a, b), h
 
+
 def read_file(path: str) -> tuple:
     with open(path, "r", encoding="utf-8") as file:
         lines = file.readlines()
@@ -25,7 +27,7 @@ def read_file(path: str) -> tuple:
 
 
 def f(x: float) -> float:
-    return 4*x / (x**4 + 12)
+    return 2*x**4
 
 
 def main(args) -> None:

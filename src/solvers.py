@@ -117,6 +117,7 @@ def quadractic_approximation(x_points: list[float], y_points: list[float]) -> li
 
     return [round(quadractic_result_function(a0, a1, a2, x), 3) for x in x_points]
 
+
 def quadractic_result_function(a0: float, a1: float, a2: float, x: float) -> float:
     return a0 + a1 * x + a2 * x * x
 
@@ -242,24 +243,27 @@ def power(x_points: list[float], y_points: list[float]) -> None:
 
 
 def power_approximation(x_points: list[float], y_points: list[float]) -> list[float]:
-    # n = len(x_points)
-
-    # b_top = n * sum([math.log(x) * math.log(y) for x, y in zip(x_points, y_points)]) - sum(list(map(lambda x: math.log(x), x_points))) * sum(list(map(lambda y: math.log(y), y_points)))
-    # b_bottom = n * sum(list(map(lambda x: math.log(x)**2, x_points))) - sum(list(map(lambda x: math.log(x), x_points)))**2
-    # b = b_top / b_bottom
-
-    # a_pow = sum(list(map(lambda y: math.log(y), y_points))) / n - (b/n) * sum(list(map(lambda x: math.log(x), x_points)))
-    # a = math.exp(a_pow)
 
     if not utils.all_exp_safe(x_points) or not utils.all_exp_safe(y_points):
         raise ValueError("Can't perform power approximation. There are some invalid `x` or `y` values")
 
-    ln_x_points = utils.to_ln(x_points)
-    ln_y_points = utils.to_ln(y_points)
+    n = len(x_points)
 
-    a, b = linear_coefficients(ln_x_points, ln_y_points)
+    b_top = n * sum([math.log(x) * math.log(y) for x, y in zip(x_points, y_points)]) - sum(list(map(lambda x: math.log(x), x_points))) * sum(list(map(lambda y: math.log(y), y_points)))
+    b_bottom = n * sum(list(map(lambda x: math.log(x)**2, x_points))) - sum(list(map(lambda x: math.log(x), x_points)))**2
+    b = b_top / b_bottom
 
-    return [round(power_result_funtion(math.exp(a), b, x), 3) for x in x_points]
+    a_pow = sum(list(map(lambda y: math.log(y), y_points))) / n - (b/n) * sum(list(map(lambda x: math.log(x), x_points)))
+    a = math.exp(a_pow)
+
+    # ln_x_points = utils.to_ln(x_points)
+    # ln_y_points = utils.to_ln(y_points)
+
+    # a, b = linear_coefficients(ln_x_points, ln_y_points)
+
+    return [round(power_result_funtion(a, b, x), 3) for x in x_points]
+
+    # return [round(power_result_funtion(math.exp(a), b, x), 3) for x in x_points]
 
 
 def power_result_funtion(a: float, b: float, x: float) -> float:
